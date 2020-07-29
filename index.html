@@ -1,0 +1,944 @@
+<!doctype html>
+<head>
+  <title>Trookio</title>
+  <meta name="description" content="News collected from several sources from all over the world, in one place.">
+  <meta name="keywords" content="news, headlines, trending, aggregator, trookio, worldwide">
+  <meta property="og:title" content="News collected from all several sources from all over the world, in one place.">
+  <meta property="og:url" content="https://trookio.github.io/">
+  <meta property="og:image" content="Images/logo.jpg">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="web-app-capable" content="yes">
+  
+  <link rel="apple-touch-icon" href="Images/apple-icon.jpg">
+  <link rel="shortcut icon" type="image/jpg" href="Images/logo.jpg">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#171717">
+  
+  <script src="jquery-part1.js"></script>
+  <script src="jquery-part2.js"></script>
+  <link rel="stylesheet" href="api-style.css">
+  <link rel="stylesheet" text="text/css" href="animation.css">
+  <link href="fonts.css" rel="stylesheet">
+  
+
+  
+<style>
+
+  /*Device size declaration*/
+ #desktop-version {display:block;overflow-y:hidden !important;}
+ #tablet-version {display:none;}
+ #mobile-version {display:none;}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+/*top nav buttons*/
+ .logo {float:left;margin:0.0%;height:2vw;}
+ 
+ 
+ .info {float:right;margin:0.1%;height:3vw;margin-top:0.5%;}
+ .mode {float:right;margin:0.2%;height:3.4vw; margin-top:0.3%;}
+ .activism {float:right;margin:0.3%;height:3.3vw;}
+ .news {float:right;margin:-0.3vw;height:4.25vw;margin-right:-0.5vw;}
+
+.search {
+  width: 100%;
+  z-index:-1;
+  position: absolute;
+  display: block;
+  margin-left:3vw;
+  transform: translate(-50%, -50%);
+}
+
+.searchTerm {
+  width: 100%;
+  border-right: none;
+  border-radius: 2vw;
+  outline: none;
+  background-color:#171717 !important;
+  color:	#808080 !important;
+  font-size:1.25vw;
+  font-family:Barlow;
+}
+
+
+/*Resize the wrap to see the search bar change!*/
+.wrapsearch{
+  width: 60% !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #808080 !important;
+  opacity: 1 !important; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #808080 !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #808080 !important;
+}
+
+
+/* Active Sidebar */
+ .sidenav {height:100%; width:18%; position:fixed; z-index:0; top:0; left:0; background-color:#242424; overflow-x:hidden; padding-top:2vw;  border-right:0.1vw solid #383838;}
+
+ .sidenav a {padding:0.1vh 8vh 0.2vh -1vh; text-decoration:none; font-size:3vh; color:white; display:block; font-family:Barlow; font-style:bold; margin-top:0; opacity:0.5; margin-left:0.5vw;}
+
+ .sidenav a:hover {opacity:1;}
+
+ .sidenav a.active {opacity:1;}
+
+
+
+/* Hidden Sidebar */
+ .sidenavhidden{width:0;display:none;}
+
+
+
+/* zoom hover effect */
+ #zoom{opacity:0.5;}
+ #zoom:hover{opacity:1;}
+ 
+
+/* splash screen stuff */
+ .splash {position:fixed; top:0; left:0; width:100%; height:100vh; background:#171717; z-index:200; color:white; text-align:center; line-height:90vh;}
+ 
+ .splash.display-none {position:fixed; opacity:0; top:0; left:0; width:100%; height:100vh; background:#171717; z-index:-10; color:white; text-align:center; line-height:90vh; transition:all 0.5s;}
+
+ @keyframes fadein{ to {opacity:1;}}
+
+ .fadeIn{opacity:0; animation:fadein 1s ease-in forwards;}
+
+
+
+/* dropdown  */
+
+  .countrytext {height:2vw; margin:0.1vw; margin-left:1vw; margin-bottom:-0.4vw; opacity:0.6;}
+ 
+ .dropdown {position:relative; display:inline-block;margin-top:1vw;overflow-y:scroll !important;}
+
+ .dropdown-content {display:none; position:fixed; background-color:#383838; width:17.9vw; z-index: 1; border-radius:1vw;}
+
+ .dropdown:hover .dropdown-content {display:block;}
+ 
+ .dropdown-content a {padding:0.01vw 0.01vw; text-decoration:none; display:block; font-size:2vw; opacity:0.6;}
+ 
+  #countrybtn{color:white;font-size:1.7vw;font-family:Barlow;opacity:1;margin-top:-0.4vw;}
+
+ 
+ 
+/* NEWS API STYLING */
+ #date {color:#fafafa;font-size:3vw;font-style:bold;margin-top:2vw;font-family:Noto Sans;margin-left:5%;}
+ 
+ #weatherbtn {float:right;height:4.5vw;margin-top:3vw;margin-right:4.5vw;}
+ 
+ #api {width:82vw;height:100vh;z-index:1;float:right;}
+ 
+ .meat{width:45%; float: right; margin-left:-10px;}
+ 
+ .dropdownapi {position:relative; display:inline-block;}
+ 
+ .dropdown-contentapi {display:none; position:absolute; right:0; background-color:#383838; z-index:1; margin-top:8vw; height:35%; width:20%;margin-right:260%;}
+
+ .dropdownapi:hover .dropdown-contentapi {display: block;}
+ 
+ .weather {height:35vh;width:25vw;}
+ 
+ .unit{border-style: solid; border-color:#242424; border-width: 0.1vw;min-height:20%;border-radius: 2vw;background-color:#242424; width:95%; margin-top:2vw;}
+ 
+ .wrap {white-space: normal !important;}
+ 
+ #api-image {width:43% !important;border-radius: 1.5vw;margin-top:1vw;margin-left:1vw;margin-bottom:1vw; z-index:1;}
+ #api-br {display:none;}
+ #api-articlelink-mobile {display:none;}
+ #api-text {width:55% !important;float:right;}
+ #api-title {color:#fafafa;font-size:2.05vw;font-family:Nunito !important;font-weight:bold;}
+ #api-description {font-size:1.6vw;font-style:bold;color:#fafafa;font-family:Nunito;}
+ #api-articlelink {margin-left:3vw;margin-top:-10vw;z-index:1;margin-right:1.7vw;margin-top:1.5vw;float:right;height:2.2vw !important;}
+ #api-moderator {border: 0.01vh solid #242424;margin-top:-2vh;width:90%;}
+ #api-newsseperator {display:none;}
+ #api-endoffeed {margin-top:30vw;height:20vw;}
+ 
+ 
+/*Tablet Version*/
+@media all and (max-width:1200px) {
+  #desktop-version {display:none;}
+  #tablet-version {display:block;}
+  #mobile-version {display:none;}
+  
+  
+  /* zoom hover effect */
+  #zoom{opacity:0.5;}
+  #zoom:hover{opacity:0.5;}
+
+ 
+ 
+  /*top nav buttons*/
+ .logo-opennav {float:left;margin:0;height:4vw;}
+ .logo-closenav {float:left;margin:0;height:4vw;}
+ 
+ 
+ .info {float:right;margin:0.1%;height:3.05vw;margin-top:0.5%;margin-right:0.2vw;}
+ .mode {float:right;margin:0.2%;height:3.4vw; margin-top:0.35%;}
+ .activism {float:right;margin:0.3%;height:3.3vw;margin-top:0.35%;margin-right:0.8vw;}
+ .news {float:right;margin:-0.3vw;height:4.25vw;}
+ 
+ 
+ /*Search Bar*/
+ .search {
+  width: 95%;
+  z-index:-1;
+  position: absolute;
+  display: block;
+  margin-left:3vw;
+  transform: translate(-50%, -50%);
+}
+
+.searchTerm {
+  width: 100%;
+  border-right: none;
+  border-radius: 2vw;
+  outline: none;
+  background-color:#171717 !important;
+  color:	#808080 !important;
+  font-size:1.25vw;
+  font-family:Barlow;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrapsearch{
+  width: 60% !important;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+}
+ 
+ 
+  /* API Stuff */
+  
+ #date {color:#fafafa;font-size:5vw;font-style:bold;margin-top:2vw;font-family:Noto Sans;margin-left:5%;}
+  
+ #weatherbtn {float:right;height:5.5vw;margin-top:3vw;margin-right:4.5vw;}
+  
+ #api {width:100vw;height:100vh;z-index:1;float:right;}
+ 
+ .meat{width:40%; float: right; margin-left:-10px;}
+ 
+ .dropdownapi {position:relative; display:inline-block;}
+ 
+ .dropdown-contentapi {display:none; position:absolute; right:0; background-color:#383838; box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2); z-index:1; margin-top:8vw; height:35%; width:25%;margin-right:260%;}
+
+ .dropdownapi:hover .dropdown-contentapi {display: block;}
+ 
+ .weather {height:40vh;width:25vw;}
+ 
+ .unit{border-style: solid; border-color:#242424; border-width: 0.1vw;min-height:25%;border-radius: 2vw;background-color:#242424; width:95%;}
+ 
+ .wrap {white-space: normal !important;}
+ 
+ #api-image {width:48%;border-radius: 1.5vw;margin-top:1vw;margin-left:1vw;margin-bottom:1vw;}
+ #api-br {display:none;}
+ #api-articlelink-mobile {display:none;}
+ #api-text {width:50%; float:right;}
+ #api-title {color:#fafafa;font-size:2.3vw;font-family:Nunito;}
+ #api-description {font-size:1.75vw;font-style:bold;color:#fafafa;font-family:Nunito;}
+ #api-articlelink {margin-left:3vw;margin-top:-10vw;z-index:1;margin-right:1.7vw;margin-top:1.5vw;float:right;height:2.3vw;}
+ #api-moderator {border: 0.01vh solid #242424;margin-top:-2vh;width:90%;}
+ #api-newsseperator {display:none;}
+ #api-endoffeed {margin-top:30vw;height:20vw;}
+  
+  
+  .sidenavhidden {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #242424;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 0vw;
+  display:block;
+}
+
+.sidenavhidden a {
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenavhiddenlink a{opacity:0.5;}
+.sidenavhiddenlink a.active {opacity:1;}
+
+#coronavirus {height:4.7vw;}
+
+
+/* dropdown  */
+.dropdown-tablet {
+  position: relative;
+  display: inline-block;
+  margin-top:1vh;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content-tablet {
+  display: none;
+  position: absolute;
+  background-color: #383838;
+  width:24.5vw;
+  z-index: 1;
+  border-radius:2vw;
+  margin-top:10vw;
+  margin-left:-21.8vw;
+}
+
+/* Links inside the dropdown */
+.dropdown-content-tablet a {
+  color: white;
+  padding: 0.2vw 0.5vw;
+  text-decoration: none;
+  display: block;
+  opacity:0.7;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown-tablet:hover .dropdown-content-tablet {display: block;}
+
+.dropbtn-tablet:hover{opacity:0.6;}
+
+.countrytext-tablet {margin:0.1vw;margin-left:-21vw;margin-bottom:0.01vw;opacity:0.5;margin-top:7vw;float:left;height:3vw;}
+ 
+ #countrybtntablet {color:white;font-size:1.8vw;font-family:Barlow;opacity:1;margin-top:-0.4vw;}
+ }
+ 
+ 
+/*Mobile Version*/
+@media all and (orientation: portrait){
+   #desktop-version {display:none;}
+   #tablet-version {display:none;}
+   #mobile-version {display:block;}
+ 
+   
+   /*topnav bar*/
+   .topnavbar {background-color:#242424;position:fixed;width:100%;border-bottom:0.01vw solid #383838;height:12vw;}
+   
+   #mobile-logo {height:18vw;margin:-2vw;margin-top:-2.3vw;}
+   
+   #category-options {height:10vw;margin:1vw;float:right;margin-right:-1.7vw;}
+   #country-options {height:10vw;margin:1vw;float:right;}
+   #search-options {height:14vw;margin:1vw;float:right;margin-left:-3vw;margin-top:-1vw;margin-right:-1vw;}
+
+ /* API Stuff */
+ 
+ #date {color:#fafafa;font-size:8vw;font-style:bold;margin-top:2.5vw;font-family:Noto Sans;margin-left:4.2vw;}
+ 
+ #weatherbtn {float:right;height:10vw;margin-top:3.5vw;margin-right:4.5vw;}
+   
+ #api {width:100vw;height:100vh;z-index:1;float:right;}
+ 
+ .meat{width:40%; float: right; margin-left:-10px;}
+ 
+ .dropdownapi {position:relative; display:inline-block;}
+ 
+ .dropdown-contentapi {display:none; position:absolute; right:0; background-color:#383838; box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2); z-index:1; margin-top:12vw; height:35%; width:60vw;margin-right:50%;}
+
+ .dropdownapi:hover .dropdown-contentapi {display: block;}
+ 
+ .weather {height:60vh;width:60vw;}
+ 
+ .unit{border-style: solid; border-color:#242424; border-width: 0.1vw;min-height:25%;border-radius: 2vw;background-color:#242424; width:95vw;margin-left:-3vw;}
+ 
+ 
+ #api-image {width:95vw !important;border-top-right-radius:2vw;border-top-left-radius:2vw;border-bottom: 1.5vw solid #383838;margin:0;}
+ #api-br {display:block;}
+ #api-text {width:93vw !important; float:left;margin:1vw;}
+ #api-title {color:#fafafa;font-size:6.5vw;font-family:Nunito;}
+ #api-articlelink-mobile {float:left;height:5vw;display:block;margin-left:1vw;}
+ #api-description {display:none;}
+ #api-articlelink {display:none;}
+ #api-moderator {border: 0.01vh solid #242424;margin-top:0vh;width:90%;}
+ #api-endoffeed {margin-top:30vw;height:34vw;margin-bottom:10vw;}
+ 
+ 
+ /* Mobile Footer */
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #242424;
+   color: white;
+   text-align: center;
+   border-top:0.01vw solid #383838;
+}
+
+#footer-news {height:12vw !important;margin-right:5.5vw;margin-left:5.5vw;}
+#footer-activism {height:12vw !important;margin-right:5.5vw;margin-left:5.5vw;}
+#footer-coronavirus {height:12vw !important;margin-right:5.5vw;margin-left:5.5vw;}
+#footer-info {height:12vw !important;margin-right:5.5vw;margin-left:5.5vw;}
+
+
+/*Side Nav Menu*/
+.mobile-sidenav-options {
+  height: 100vh !important; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 5; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #242424; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top:15vw;
+  transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+
+.sidebar-content-country {margin-top:5vw;}
+
+.close-mobile-sidenav-options {float:right;height:12vw;margin-top:-15vw;margin-right:-2vw;}
+
+
+/* The navigation menu links */
+.mobile-sidenav-options a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  color: white;
+  display: block;
+  text-align:center;
+}
+
+
+#category-icons-headlines {height:9vw;}
+#category-icons-business {height:10.5vw;}
+#category-icons-politics {height:10.1vw;}
+#category-icons-sports {height:10vw;}
+#category-icons-technology {height:10.5vw;}
+#category-icons-science {height:10.5vw;}
+#category-icons-entertainment {height:9.5vw;}
+
+#countrybtnmobile {color:white;font-size:4.5vw !important;font-family:Barlow;opacity:1;margin-top:-2.5vw;opacity:0.6;}
+
+
+/*Side Nav Menu*/
+.search-slidebar {
+  height: 12vw; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 5; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #242424; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
+  overflow:hidden;
+}
+
+.close-search-slidebar {float:right;height:12vw;margin-top:-0.1vw;margin-right:-7vw;}
+
+
+/* Position and style the close button (top right corner) */
+.search-slidebar .close-search-slidebar {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 15vw;
+  font-style:none;
+}
+  
+  
+.search {
+  width: 100%;
+  position: absolute;
+  display: block;
+  margin-left:3vw;
+  transform: translate(-50%, -50%);
+}
+
+.searchTerm {
+  width: 100%;
+  border-right: none;
+  border-radius: 2vw;
+  outline: none;
+  background-color:#171717 !important;
+  color:	#808080 !important;
+  font-size:4vw;
+  font-family:Barlow;
+}
+
+
+/*Resize the wrap to see the search bar change!*/
+.wrapsearch{
+  width: 88% !important;
+  position: absolute;
+  top: 50%;
+  left: 42%;
+  float:left;
+}
+
+}
+</style>
+</head>
+
+<body id="body" style="background-color:#171717;padding:0;margin:0;overflow-x:hidden;">
+
+<div data-role="page" id="us-headlines" style="background-color:#171717;">
+  
+  <!--Splash Screen-->
+ <div class="splash" onload="preload()">
+  <img src="Images/splashscreen-dark.png" style="height:20vh;margin-top:40vh;text-align:center;">
+  <script>
+var preload = (function() {
+    var executed = false;
+    return function() {
+        if (!executed) {
+            executed = true;
+            
+const splash = document.querySelector('.splash');
+
+document.addEventListener('DOMContentLoaded', (e)=>{
+	setTimeout(()=>{
+		splash.classList.add('display-none');
+	}, 1350);
+})
+const header = document.querySelector('.header');
+
+window.onscroll=function(){
+	var top=window.scrollY;
+	console.log(top);
+	if (top >= 50){
+		header.classList.add('active')
+	}
+	else{
+		header.classList.remove('active');
+	}
+}
+        }
+    };
+})();
+
+preload(); // "do something" happens
+preload(); // nothing happens
+</script>
+</div>
+
+  <!--Page Content-->
+ <div class="zoomer" style="animation-delay:1s;">
+    
+    <!--Desktop Version-->
+    <div id="desktop-version" style="overflow-y:none" >
+   <!--Header Navigation Bar-->
+   <div style="background-color:#242424;position:fixed;width:100%;border-bottom:0.1vw solid #383838;">
+    <a href="#us-headlines-headlines"><img src="Images/switchtolightmode.png" id="zoom" class="mode" title="Switch to Light Mode"></a>
+    <a href="#info"><img src="Images/icon-info-dark.png" id="zoom" class="info" title="Information"></a>
+    <a href="#activism"><img src="Images/icon-activism-dark.png" id="zoom" class="activism" title="Trookio Education"></a>
+    <img src="Images/icon-newsactive-dark.png" class="news" title="News Feed">
+    
+    <!--Search Bar-->
+
+ <div class="wrapsearch">
+   <div class="search">
+      <input class="searchTerm" placeholder="Search by topics, countries or keywords" style="background-image: url('Images/searchicon-searchbar-dark.png');background-repeat: no-repeat;background-size:2.5vw;background-position: 0.2vw 0.3vw;padding: 0.1vw 0vw 0vw 3.2vw;" id="filter" onkeyup="filterFunction()">
+   </div>
+ </div>
+ 
+ <script>
+   
+
+   
+ </script>
+
+  </div>
+  
+   <!--Side Bar (Active)-->
+   <div class="sidenav" style="height:100vh;">
+    <img src="Images/logo-dark.png" style="height:7vw;margin-top:-15%;margin-left:-1vw;"><br><br>
+    
+  <!--Country Dropdown (Active)-->
+  <div class="dropdown">
+  <div class="dropbtn"><img src="Images/sidenav-dropdown-country-us-dark.png" class="countrytext"></div>
+
+    <div class="dropdown-content">
+     <a href="#australia-headlines"><h1 id="countrybtn">Australia</h1></a>
+     <a href="#brazil-headlines"><h1 id="countrybtn">Brazil</h1></a>
+     <a href="#canada-headlines"><h1 id="countrybtn">Canada</h1></a>
+     <a href="#china-headlines"><h1 id="countrybtn">China</h1></a>
+     <a href="#france-headlines"><h1 id="countrybtn">France</h1></a>
+     <a href="#germany-headlines"><h1 id="countrybtn">Germany</h1></a>
+     <a href="#india-headlines"><h1 id="countrybtn">India</h1></a>
+     <a href="#italy-headlines"><h1 id="countrybtn">Italy</h1></a>
+     <a href="#japan-headlines"><h1 id="countrybtn">Japan</h1></a>
+     <a href="#russia-headlines"><h1 id="countrybtn">Russia</h1></a>
+     <a href="#spain-headlines"><h1 id="countrybtn">Spain</h1></a>
+     <a href="#us-headlines" style="opacity:1;"><h1 id="countrybtn">United States</h1></a>
+     <a href="#uk-headlines"><h1 id="countrybtn">United Kingdom</h1></a>
+    </div>
+  </div>
+  
+   <hr style="color:#b8b8b8;width:90%;opacity:0.5;">
+   <a href="#coronavirus"><img src="Images/sidenav-category-coronavirus-dark.png" style="height:3vw;"></a>
+   <hr style="color:#b8b8b8;width:90%;margin-top:0vh;opacity:0.5;">
+   <a href="#us-headlines" class="active"><img src="Images/sidenav-category-headlines-dark.png" style="height:2.4vw;"></a>
+   <a href="#us-business"><img src="Images/sidenav-category-business-dark.png" style="height:2.9vw;"></a>
+   <a href="#us-politics"><img src="Images/sidenav-category-politics-dark.png" style="height:2.65vw;"></a>
+   <a href="#us-sports"><img src="Images/sidenav-category-sports-dark.png" style="height:2.8vw;"></a>
+   <a href="#us-technology"><img src="Images/sidenav-category-technology-dark.png" style="height:2.8vw;"></a>
+   <a href="#us-science"><img src="Images/sidenav-category-science-dark.png" style="height:2.8vw;margin-top:-0.5vw;"></a>
+   <a href="#us-entertainment"><img src="Images/sidenav-category-entertainment-dark.png" style="height:2.7vw;margin-top:-0.3vw;"></a>
+</div>
+
+<embed src="#us-headlines-api" id="api">
+</div>
+
+    <!--Tablet Version-->
+    <div id="tablet-version">
+       
+      <!--Hidden Sidebar-->
+      <div id="hiddensidebar-usheadlines" class="sidenavhidden">
+       <img src="Images/logo+menu-dark.png" class="logo-closenav" onclick="closeNav()">
+       
+       <div class="dropdown-tablet">
+        <div class="dropbtn-tablet"><img src="Images/sidenav-dropdown-country-us-dark.png" class="countrytext-tablet"></div>
+
+        <div class="dropdown-content-tablet">
+         <a href="#australia-headlines"><h1 id="countrybtntablet">Australia</h1></a>
+         <a href="#brazil-headlines"><h1 id="countrybtntablet">Brazil</h1></a>
+         <a href="#canada-headlines"><h1 id="countrybtntablet">Canada</h1></a>
+         <a href="#china-headlines"><h1 id="countrybtntablet">China</h1></a>
+         <a href="#france-headlines"><h1 id="countrybtntablet">France</h1></a>
+         <a href="#germany-headlines"><h1 id="countrybtntablet">Germany</h1></a>
+         <a href="#india-headlines"><h1 id="countrybtntablet">India</h1></a>
+         <a href="#italy-headlines"><h1 id="countrybtntablet">Italy</h1></a>
+         <a href="#japan-headlines"><h1 id="countrybtntablet">Japan</h1></a>
+         <a href="#russia-headlines"><h1 id="countrybtntablet">Russia</h1></a>
+         <a href="#spain-headlines"><h1 id="countrybtntablet">Spain</h1></a>
+         <a href="#us-headlines" style="opacity:1;"><h1 id="countrybtntablet">United States</h1></a>
+         <a href="#uk-headlines"><h1 id="countrybtntablet">United Kingdom</h1></a>
+        </div>
+       </div>
+       
+       <div class="sidenavhiddenlink">
+        <hr style="color:#b8b8b8;width:95%;opacity:0.5;">
+        <a href="#coronavirus"><img src="Images/sidenav-category-coronavirus-dark.png" style="height:4.3vw;"></a>
+       <hr style="color:#b8b8b8;width:95%;margin-top:0vh;opacity:0.5;">
+       <a href="#us-headlines" class="active"><img src="Images/sidenav-category-headlines-dark.png" style="height:3.4vw;"></a>
+       <a href="#us-business"><img src="Images/sidenav-category-business-dark.png" style="height:3.9vw;"></a>
+       <a href="#us-politics"><img src="Images/sidenav-category-politics-dark.png" style="height:3.7vw;"></a>
+       <a href="#us-sports"><img src="Images/sidenav-category-sports-dark.png" style="height:3.8vw;"></a>
+       <a href="#us-technology"><img src="Images/sidenav-category-technology-dark.png" style="height:3.8vw;"></a>
+       <a href="#us-science"><img src="Images/sidenav-category-science-dark.png" style="height:3.8vw;margin-top:-0.5vw;"></a>
+       <a href="#us-entertainment"><img src="Images/sidenav-category-entertainment-dark.png" style="height:3.7vw;margin-top:-0.3vw;"></a>
+      </div>
+      
+      <!--Side Nav Bar script-->
+      <script>
+         
+         document.querySelector('#bruhmama').addEventListener('click', closeNav);
+
+         function openNav() {
+          document.getElementById("hiddensidebar-usheadlines").style.width = "25vw";
+          document.getElementById("mainpage-usheadlines").style.opacity = "0.3";
+          }
+
+        function closeNav() {
+         document.getElementById("hiddensidebar-usheadlines").style.width = "0";
+         document.getElementById("mainpage-usheadlines").style.opacity = "1";
+         }
+      </script>
+      </div>
+       
+      <div id="mainpage-usheadlines">
+       <!--Topnav Bar-->
+       <div style="background-color:#242424;position:fixed;width:100%;border-bottom:0.1vw solid #383838;">
+        <img src="Images/logo+menu-dark.png" class="logo-opennav" onclick="openNav()">
+        <a href="#us-headlines-light"><img src="Images/switchtolightmode.png" title=" Switch to Light-Mode" id="zoom" class="mode"></a>
+        <a href="#info"><img src="Images/icon-info-dark.png" title="Information" id="zoom" class="info"></a>
+        <a href="#activism"><img src="Images/icon-activism-dark.png" title="Trookio Education" id="zoom" class="activism"></a>
+        <a href="#us-headlines"><img src="Images/icon-newsactive-dark.png" title="News Feed" class="news"></a>
+        
+        
+        <!--Search Bar-->
+        <div class="wrapsearch">
+         <div class="search">
+          <input class="searchTerm" placeholder="Search by topics, countries or keywords" style="background-image: url('Images/searchicon-searchbar-dark.png');background-repeat: no-repeat;background-size:2.5vw;background-position: 0.2vw 0.3vw;padding: 0.1vw 0vw 0vw 3.2vw;">
+         </div>
+        </div>
+       </div>
+       
+       <!--API Embed-->
+       <div id="bruhmama"><embed src="#us-headlines-api" id="api"></div>
+
+      </div>
+    </div>
+    
+    <!--Mobile Version-->
+    <div id="mobile-version">
+      
+      <!--Top Nav Bar-->
+      <div class="topnavbar">
+        <!--Top Bar Icons-->
+        <div role="main">
+         <img src="Images/logo-dark.png" id="mobile-logo">
+         <img src="Images/searchicon.png" id="search-options" onclick="opensearchsliderbar()">
+         <img src="Images/mobile-topbar-country-us-dark.png" id="country-options" onclick="opencountryusheadlines()">
+         <img src="Images/mobile-topbar-category-headlines-dark.png" id="category-options" onclick="opencategoryusheadlines()">
+
+         <!--Search Slidebar-->
+         <div class="search-slidebar" id="searchsliderbar">
+           <img src="Images/search-close.png" class="close-search-slidebar" onclick="closesearchsliderbar()">
+           
+           <!--Search Bar-->
+           <div>
+            <div class="wrapsearch">
+             <div class="search">
+              <input class="searchTerm" placeholder="Search for keywords" style="background-image: url('Images/searchicon-searchbar-dark.png');background-repeat: no-repeat;background-size:8vw;background-position: 0.3vw 0.5vw;padding: 0.1vw 0vw 0vw 9vw;">
+             </div>
+            </div>
+           </div>
+           
+           <script>
+            /* Set the width of the side navigation to 250px */
+            function opensearchsliderbar() {
+            document.getElementById("searchsliderbar").style.width = "100vw";
+             }
+
+            /* Set the width of the side navigation to 0 */
+            function closesearchsliderbar() {
+            document.getElementById("searchsliderbar").style.width = "0";
+            }
+           </script>
+         </div>
+
+         
+        <!--Category Options-->
+        <div id="sidenav-category-usheadlines" class="mobile-sidenav-options">
+          <img src="Images/close-sidebar.png" onclick="closecategoryusheadlines()" class="close-mobile-sidenav-options">
+          <div  class="sidebar-content-category">
+            <a onclick="closecategoryusheadlines()"><img src="Images/sidenav-category-headlines-dark.png" id="category-icons-headlines" style="opacity:1;"></a>
+            <a href="#us-business" onclick="closecategoryusheadlines()"><img src="Images/sidenav-category-business-dark.png" id="category-icons-business" style="opacity:0.6;"></a>
+            <a href="#us-politics" onclick="closecategoryusheadlines()"><img src="Images/sidenav-category-politics-dark.png" id="category-icons-politics" style="opacity:0.6;"></a>
+            <a href="#us-sports" onclick="closecategoryusheadlines()"><img src="Images/sidenav-category-sports-dark.png" id="category-icons-sports" style="opacity:0.6;"></a>
+            <a href="#us-technology" onclick="closecategoryusheadlines()"><img src="Images/sidenav-category-technology-dark.png" id="category-icons-technology" style="opacity:0.6;"></a>
+            <a href="#us-science" onclick="closecategoryusheadlines()"><img src="Images/sidenav-category-science-dark.png" id="category-icons-science" style="opacity:0.6;"></a>
+            <a href="#us-entertainment" onclick="closecategoryusheadlines()"><img src="Images/sidenav-category-entertainment-dark.png" id="category-icons-entertainment" style="opacity:0.6;"></a>
+          </div>
+          
+          <script>
+            /* Set the width of the side navigation to 250px */
+            function opencategoryusheadlines() {
+            document.getElementById("sidenav-category-usheadlines").style.width = "100vw";
+             }
+
+            /* Set the width of the side navigation to 0 */
+            function closecategoryusheadlines() {
+            document.getElementById("sidenav-category-usheadlines").style.width = "0";
+            }
+          </script>
+        </div>
+        
+        <!--Coutry Options-->
+        <div id="sidenav-country-usheadlines" class="mobile-sidenav-options">
+          <img src="Images/close-sidebar.png" onclick="closecountryusheadlines()" class="close-mobile-sidenav-options">
+          
+          <div class="sidebar-content-country">
+            <a href="#australia-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">Australia</h1></a>
+            <a href="#brazil-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">Brazil</h1></a>
+            <a href="#canada-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">Canada</h1></a>
+            <a href="#china-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">China</h1></a>
+            <a href="#france-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">France</h1></a>
+            <a href="#germany-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">Germany</h1></a>
+            <a href="#india-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">India</h1></a>
+            <a href="#italy-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">Italy</h1></a>
+            <a href="#japan-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">Japan</h1></a>
+            <a href="#russia-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">Russia</h1></a>
+            <a href="#spain-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">Spain</h1></a>
+            <a href="#us-headlines" style="opacity:1;" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile" style="opacity:1 !important;">United States</h1></a>
+            <a href="#uk-headlines" onclick="closecountryusheadlines()"><h1 id="countrybtnmobile">United Kingdom</h1></a>
+          </div>
+          
+          <script>
+            /* Set the width of the side navigation to 250px */
+            function opencountryusheadlines() {
+            document.getElementById("sidenav-country-usheadlines").style.width = "100vw";
+             }
+
+            /* Set the width of the side navigation to 0 */
+            function closecountryusheadlines() {
+            document.getElementById("sidenav-country-usheadlines").style.width = "0";
+            }
+          </script>
+         </div>
+        </div>
+      </div>
+      
+      <div class="footer" role="main" style="display:inline-block;">
+        <img src="Images/footer-news-dark.png" id="footer-news" style="opacity:1;">
+        <a href="#activism"><img src="Images/footer-activism-dark.png" id="footer-activism" style="opacity:0.5;"></a>
+        <a href="#coronavirus"><img src="Images/footer-coronavirus-dark.png" id="footer-coronavirus" style="opacity:0.5;"></a>
+        <a href="#info"><img src="Images/footer-info-dark.png" id="footer-info" style="opacity:0.5;"></a>
+      </div>
+      
+      <!--API Embed-->
+      <embed src="#us-headlines-api" id="api">
+    </div>
+    
+ </div>
+
+</div>
+
+
+
+<div data-role="page" id="us-headlines-api" style="background-color:#171717;">
+<div style="background-color:#171717;">
+ <br><br><br>
+ <div class="dropdownapi" style="float:right;">
+  <img src="Images/weatherbtn-dark.png" title="Weather" class="dropdownbtnapi" id="weatherbtn">
+  <div class="dropdown-contentapi">
+   <iframe src="https://cdnres.willyweather.com/widget/loadView.html?id=126801" class="weather" style="border:none;">
+     <div id="loader">
+     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: rgb(80, 80, 80); display: block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+<circle cx="84" cy="50" r="2.89667" fill="#171717">
+    <animate attributeName="r" repeatCount="indefinite" dur="0.25s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+    <animate attributeName="fill" repeatCount="indefinite" dur="1s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#171717;#171717;#171717;#171717;#171717" begin="0s"></animate>
+</circle><circle cx="16" cy="50" r="7.10333" fill="#171717">
+  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+</circle><circle cx="40.1513" cy="50" r="10" fill="#171717">
+  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+</circle><circle cx="74.1513" cy="50" r="10" fill="#171717">
+  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+</circle><circle cx="16" cy="50" r="0" fill="#171717">
+  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
+  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
+</circle>
+</svg>
+</div>
+   </iframe>
+  </div>
+ </div>
+ 
+ <h1 id="date"></h1>
+ <ul id="storyList" data-role="listview" style="background-color:#171717;margin-left:5%;" class="newslist"><br><br>
+ 
+ <div id="loader">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#171717;display:block;" width="211px" height="211px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+<circle cx="18" cy="72.0947" r="4" fill="#383838">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="0s" repeatCount="indefinite"></animate>
+</circle><circle cx="27" cy="58.3231" r="4" fill="#383838">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.11061946902654866s" repeatCount="indefinite"></animate>
+</circle><circle cx="36" cy="36.2273" r="4" fill="#383838">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.22123893805309733s" repeatCount="indefinite"></animate>
+</circle><circle cx="45" cy="26.5627" r="4" fill="#383838">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.331858407079646s" repeatCount="indefinite"></animate>
+</circle><circle cx="54" cy="27.9053" r="4" fill="#383838">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.44247787610619466s" repeatCount="indefinite"></animate>
+</circle><circle cx="63" cy="41.677" r="4" fill="#383838">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.5530973451327433s" repeatCount="indefinite"></animate>
+</circle><circle cx="72" cy="63.7728" r="4" fill="#383838">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.663716814159292s" repeatCount="indefinite"></animate>
+</circle><circle cx="81" cy="73.4373" r="4" fill="#383838">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.7743362831858406s" repeatCount="indefinite"></animate>
+</circle>
+</svg>
+ </div>
+ </ul>
+ <div align=center>
+ <br>
+ <img src="Images/endoffeed-dark.png" id="api-endoffeed"><br><br>
+</div>
+</div>
+<script>
+
+   let url = "https://yacdn.org/proxy/https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=3e2409c3962a4580ad0a927d9b5b095f";
+      let out = "";
+      let articles = [];
+      $.getJSON(url, function(data){
+        console.log(data);
+        articles = data.articles;
+        for(let x =0; x < articles.length; x++) {
+          displayStory(articles[x],x);
+          $("#storyList").html(out);
+          $("#storyList").listview("refresh");
+        
+        }
+      });
+
+      function displayStory(story,totalResults){
+        
+        const number = totalResults;
+        const title = story.title;
+        const source = story.url;
+        const img = story.urlToImage;
+        const storyTime = story.published;
+        const summary = story.description;
+        
+        out +="<div class='unit'>";
+        out += "<li onclick='populateDetail(" + number + ")' class='wrap' id='unitlist'>";
+        out += "<img id='api-image' align=center src ='" + img + "'/>";
+        out += "<br id='api-br'>";
+        out += "<div class='wrap' id='api-text'>";
+        out += "<h1 id='api-title'>" + title + "</h1>";
+        out += "<h6 id='api-description' class='wrap'>" + summary + "</h6>";
+        out += "<div>"
+        out += "<a href= '" + source + "' target='_blank'><img src='Images/openarticle-desktop-dark.png' title='View full article' id='api-articlelink'></a>";
+        out += "<a href= '" + source + "' target='_blank'><img src='Images/openarticle-mobile-dark.png' id='api-articlelink-mobile'></a>";
+        out += "</div></div><hr id='api-moderator'></div>";
+        out += "</li>";
+        out += "<br>";
+      }
+      
+         function filterFunction() {
+  var input, filter, ul, li, a, i, h1;
+  input = document.getElementById("filter");
+  filter = input.value.toUpperCase();
+  div = document.querySelector(".newslist");
+  li = div.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+    txtValue = li[i].textContent || li[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "block";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+
+
+
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var n = new Date();
+var y = n.getFullYear();
+var m = n.getMonth();
+var d = n.getDate();
+document.getElementById("date").innerHTML = months[m] + " " + d + ", " + y;
+
+</script>
+</div>
+
+</body>
